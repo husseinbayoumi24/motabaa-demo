@@ -69,7 +69,15 @@ logging.basicConfig(level=getattr(logging, config.env("LOG_LEVEL", "INFO").upper
 
 @st.cache_resource
 def _boot():
+    @st.cache_resource
+def _boot():
     db.init_db()
+    if not db.has_admin():
+        with db.get_conn() as c:
+            c.execute(
+                "INSERT INTO users (email, password_hash, role, full_name) VALUES (?, ?, 'admin', ?)",
+                ("admin@motabaa.edu", db.hash_password("Admin@1234"), "مدير النظام")
+            )
     return True
 
 
