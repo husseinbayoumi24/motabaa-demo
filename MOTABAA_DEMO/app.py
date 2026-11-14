@@ -67,8 +67,7 @@ logging.basicConfig(level=getattr(logging, config.env("LOG_LEVEL", "INFO").upper
                     format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 
 
-@st.cache_resource
-def _boot():
+
     @st.cache_resource
 def _boot():
     db.init_db()
